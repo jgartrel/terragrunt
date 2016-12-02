@@ -12,6 +12,7 @@ import:
   subpackages:
   - aws
   - aws/defaults
+  - aws/credentials
   - aws/session
   - aws/awserr
   - aws/service/dynamodb
