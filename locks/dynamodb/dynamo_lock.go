@@ -71,7 +71,7 @@ func (dynamoLock *DynamoDbLock) fillDefaults() {
 func (dynamoDbLock DynamoDbLock) AcquireLock() error {
 	util.Logger.Printf("Attempting to acquire lock for state file %s in DynamoDB", dynamoDbLock.StateFileId)
 
-	client, err := createDynamoDbClient(dynamoDbLock.AwsRegion,dynamoDbLock.AwsProfile)
+	client, err := createDynamoDbClient(dynamoDbLock.AwsRegion, dynamoDbLock.AwsProfile)
 	if err != nil {
 		return err
 	}
