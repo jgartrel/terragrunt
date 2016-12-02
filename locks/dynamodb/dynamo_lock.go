@@ -16,6 +16,7 @@ import (
 type DynamoDbLock struct {
 	StateFileId    string
 	AwsRegion      string
+	AwsProfile     string
 	TableName      string
 	MaxLockRetries int
 }
@@ -25,6 +26,7 @@ func New(conf map[string]string) (locks.Lock, error) {
 	lock := &DynamoDbLock{
 		StateFileId:    conf["state_file_id"],
 		AwsRegion:      conf["aws_region"],
+		AwsProfile:     conf["aws_profile"],
 		TableName:      conf["table_name"],
 		MaxLockRetries: 0,
 	}
@@ -51,6 +53,10 @@ func (dynamoLock *DynamoDbLock) fillDefaults() {
 		dynamoLock.AwsRegion = DEFAULT_AWS_REGION
 	}
 
+	if dynamoLock.AwsProfile == "" {
+		dynamoLock.AwsProfile = DEFAULT_AWS_PROFILE
+	}
+
 	if dynamoLock.TableName == "" {
 		dynamoLock.TableName = DEFAULT_TABLE_NAME
 	}
@@ -65,7 +71,7 @@ func (dynamoLock *DynamoDbLock) fillDefaults() {
 func (dynamoDbLock DynamoDbLock) AcquireLock() error {
 	util.Logger.Printf("Attempting to acquire lock for state file %s in DynamoDB", dynamoDbLock.StateFileId)
 
-	client, err := createDynamoDbClient(dynamoDbLock.AwsRegion)
+	client, err := createDynamoDbClient(dynamoDbLock.AwsRegion,dynamoDbLock.AwsProfile)
 	if err != nil {
 		return err
 	}
@@ -81,7 +87,7 @@ func (dynamoDbLock DynamoDbLock) AcquireLock() error {
 func (dynamoDbLock DynamoDbLock) ReleaseLock() error {
 	util.Logger.Printf("Attempting to release lock for state file %s in DynamoDB", dynamoDbLock.StateFileId)
 
-	client, err := createDynamoDbClient(dynamoDbLock.AwsRegion)
+	client, err := createDynamoDbClient(dynamoDbLock.AwsRegion, dynamoDbLock.AwsProfile)
 	if err != nil {
 		return err
 	}
@@ -100,8 +106,8 @@ func (dynamoLock DynamoDbLock) String() string {
 }
 
 // Create an authenticated client for DynamoDB
-func createDynamoDbClient(awsRegion string) (*dynamodb.DynamoDB, error) {
-	config, err := aws_helper.CreateAwsConfig(awsRegion)
+func createDynamoDbClient(awsRegion string, awsProfile string) (*dynamodb.DynamoDB, error) {
+	config, err := aws_helper.CreateAwsConfig(awsRegion, awsProfile)
 	if err != nil {
 		return nil, err
 	}

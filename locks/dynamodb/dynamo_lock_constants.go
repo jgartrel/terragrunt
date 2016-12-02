@@ -18,6 +18,7 @@ const SLEEP_BETWEEN_TABLE_LOCK_ACQUIRE_ATTEMPTS = 10 * time.Second
 
 const DEFAULT_TABLE_NAME = "terragrunt_locks"
 const DEFAULT_AWS_REGION = "us-east-1"
+const DEFAULT_AWS_PROFILE = "default"
 
 const DEFAULT_READ_CAPACITY_UNITS = 1
 const DEFAULT_WRITE_CAPACITY_UNITS = 1

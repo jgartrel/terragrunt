@@ -36,6 +36,7 @@ lock = {
 	lock := terragruntConfig.Lock.(*dynamodb.DynamoDbLock)
 	assert.Equal(t, "expected-state-file-id", lock.StateFileId)
 	assert.Equal(t, dynamodb.DEFAULT_AWS_REGION, lock.AwsRegion)
+	assert.Equal(t, dynamodb.DEFAULT_AWS_PROFILE, lock.AwsProfile)
 	assert.Equal(t, dynamodb.DEFAULT_TABLE_NAME, lock.TableName)
 	assert.Equal(t, dynamodb.DEFAULT_MAX_RETRIES_WAITING_FOR_LOCK, lock.MaxLockRetries)
 }
@@ -50,6 +51,7 @@ lock = {
   config {
     state_file_id = "expected-state-file-id"
     aws_region = "expected-region"
+    aws_profile = "expected-profile"
     table_name = "expected-table-name"
     max_lock_retries = 100
   }
@@ -65,6 +67,7 @@ lock = {
 	lock := terragruntConfig.Lock.(*dynamodb.DynamoDbLock)
 	assert.Equal(t, "expected-state-file-id", lock.StateFileId)
 	assert.Equal(t, "expected-region", lock.AwsRegion)
+	assert.Equal(t, "expected-profile", lock.AwsProfile)
 	assert.Equal(t, "expected-table-name", lock.TableName)
 	assert.Equal(t, 100, lock.MaxLockRetries)
 }
@@ -156,6 +159,7 @@ lock = {
   config {
     state_file_id = "expected-state-file-id"
     aws_region = "expected-region"
+    aws_profile = "expected-profile"
     table_name = "expected-table-name"
     max_lock_retries = 100
   }
@@ -180,6 +184,7 @@ remote_state = {
 	lock := terragruntConfig.Lock.(*dynamodb.DynamoDbLock)
 	assert.Equal(t, "expected-state-file-id", lock.StateFileId)
 	assert.Equal(t, "expected-region", lock.AwsRegion)
+	assert.Equal(t, "expected-profile", lock.AwsProfile)
 	assert.Equal(t, "expected-table-name", lock.TableName)
 	assert.Equal(t, 100, lock.MaxLockRetries)
 
