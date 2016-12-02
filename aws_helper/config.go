@@ -12,8 +12,8 @@ func CreateAwsConfig(awsRegion string, awsProfile string) (*aws.Config, error) {
 	config := defaults.Get().Config.WithRegion(awsRegion)
 
 	providers := []credentials.Provider{
- 		&credentials.EnvProvider{},
- 		&credentials.SharedCredentialsProvider{
+		&credentials.EnvProvider{},
+		&credentials.SharedCredentialsProvider{
 			Filename: "",
 			Profile:  awsProfile,
 		},
